@@ -1,0 +1,79 @@
+version: "3.7"
+services:
+        mongo:
+                image: mongo:latest
+                container_name: mongo
+                volumes:
+                - type: volume
+                  source: persist
+                  target: data/db
+        mongo-service:
+                build: ./mongo-service
+                container_name: mongo-service
+                depends_on: 
+                - mongo
+        secret-service:
+                build: ./secret-service
+                container_name: secret-service
+                depends_on:
+                - mongo-service
+        aes-encrpytion-service:
+                build: ./aes-encrpytion-service
+                container_name: aes-encryption-service
+        email-service:
+                build: ./email-service/
+                container_name: email-service
+                environment:
+                - GMAIL_USER=ilovedocker123@gmail.com
+                - GMAIL_PASS=ilovedocker!
+                - SERVICE_NAME=emailer
+                depends_on:
+                - mongo-service
+                - aes-encryption-service
+        account-service:
+                build: ./account-service
+                container_name: account-service
+                depends_on:
+                - secret-service
+                - mongo-service
+        session-token-service:
+                build: ./session-token-service
+                container_name: session-token-service
+                depends_on:
+                - aes-encryption-service
+        dashboard-service:
+                build: ./dashboard-service
+                container_name: dashboard-service
+                depends_on:
+                - account-service
+        dashboard-client:
+                build: ./dashboard-client
+                container_name: dashboard-client
+        authentication-service:
+                build: ./authentication-service
+                container_name: authentication-service
+                depends_on:
+                - account-service
+                - session-token-service
+        authentication-client:
+                build: ./authentication-client
+                container_name: authentication-client
+        role-service:
+                build: ./role-service
+                container_name: role-service
+        group-service:
+                build: ./group-service
+                container_name: group-service
+        gateway:
+                build: ./gatewaty
+                container_name: gateway
+                ports:
+                - target: 80
+                  published: 80
+                depends_on:
+                - dashboard-client
+                - dashboard-service
+                - authentication-client
+                - authentication-service
+volumes:
+        persist:
