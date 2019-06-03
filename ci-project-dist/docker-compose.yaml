@@ -3,10 +3,6 @@ services:
         mongo:
                 image: mongo:latest
                 container_name: mongo
-                volumes:
-                - type: volume
-                  source: persist
-                  target: data/db
         mongo-service:
                 build: ./mongo-service
                 container_name: mongo-service
@@ -17,16 +13,16 @@ services:
                 container_name: secret-service
                 depends_on:
                 - mongo-service
-        aes-encrpytion-service:
-                build: ./aes-encrpytion-service
+        aes-encryption-service:
+                build: ./aes-encryption-service
                 container_name: aes-encryption-service
         email-service:
                 build: ./email-service/
                 container_name: email-service
                 environment:
-                - GMAIL_USER=ilovedocker123@gmail.com
-                - GMAIL_PASS=ilovedocker!
-                - SERVICE_NAME=emailer
+                - GMAIL_USER=${GMAIL_USER}
+                - GMAIL_PASS=${GMAIL_PASS}
+                - SERVICE_NAME=${SERVICE_NAME}
                 depends_on:
                 - mongo-service
                 - aes-encryption-service
@@ -52,6 +48,8 @@ services:
         authentication-service:
                 build: ./authentication-service
                 container_name: authentication-service
+                environment:
+                        ACTIVATION_LINK: ${ACTIVATION_LINK}
                 depends_on:
                 - account-service
                 - session-token-service
@@ -65,15 +63,14 @@ services:
                 build: ./group-service
                 container_name: group-service
         gateway:
-                build: ./gatewaty
+                build: ./gateway
                 container_name: gateway
                 ports:
                 - target: 80
                   published: 80
+                  protocol: tcp
                 depends_on:
                 - dashboard-client
                 - dashboard-service
                 - authentication-client
                 - authentication-service
-volumes:
-        persist:

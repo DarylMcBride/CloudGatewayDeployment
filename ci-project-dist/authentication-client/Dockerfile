@@ -1,5 +1,4 @@
-from node:10
-copy . .
-run npm install
-entrypoint ["/usr/local/bin/node", "npm run serve"]
-
+FROM node:10
+COPY . .
+RUN npm install
+ENTRYPOINT ["/usr/local/bin/npm", "run", "serve"]
