@@ -5,19 +5,23 @@ services:
                 container_name: mongo
         mongo-service:
                 build: ./mongo-service
+                image: darylmcbride/mongo-service
                 container_name: mongo-service
                 depends_on: 
                 - mongo
         secret-service:
                 build: ./secret-service
+                image: darylmcbride/secret-service
                 container_name: secret-service
                 depends_on:
                 - mongo-service
         aes-encryption-service:
                 build: ./aes-encryption-service
+                image: darylmcbride/aes-encryption-service
                 container_name: aes-encryption-service
         email-service:
                 build: ./email-service/
+                image: darylmcbride/email-service
                 container_name: email-service
                 environment:
                 - GMAIL_USER=${GMAIL_USER}
@@ -28,25 +32,30 @@ services:
                 - aes-encryption-service
         account-service:
                 build: ./account-service
+                image: darylmcbride/account-service
                 container_name: account-service
                 depends_on:
                 - secret-service
                 - mongo-service
         session-token-service:
                 build: ./session-token-service
+                image: darylmcbride/session-token-service
                 container_name: session-token-service
                 depends_on:
                 - aes-encryption-service
         dashboard-service:
                 build: ./dashboard-service
+                image: darylmcbride/dashboard-service
                 container_name: dashboard-service
                 depends_on:
                 - account-service
         dashboard-client:
                 build: ./dashboard-client
+                image: darylmcbride/dashboard-client
                 container_name: dashboard-client
         authentication-service:
                 build: ./authentication-service
+                image: darylmcbride/authentication-service
                 container_name: authentication-service
                 environment:
                         ACTIVATION_LINK: ${ACTIVATION_LINK}
@@ -55,15 +64,19 @@ services:
                 - session-token-service
         authentication-client:
                 build: ./authentication-client
+                image: darylmcbride/authentication-client
                 container_name: authentication-client
         role-service:
                 build: ./role-service
+                image: darylmcbride/role-service
                 container_name: role-service
         group-service:
                 build: ./group-service
+                image: darylmcbride/group-service
                 container_name: group-service
         gateway:
                 build: ./gateway
+                image: darylmcbride/gateway
                 container_name: gateway
                 ports:
                 - target: 80
