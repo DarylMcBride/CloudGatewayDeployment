@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: role-service
+  labels:
+    app: role-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: role-service
+  template:
+    metadata:
+      labels:
+        app: role-service
+    spec:
+      containers:
+      - name: role-service
+        image: docker.io/darylmcbride/role-service
+        ports:
+        - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: role-service
+spec:
+  selector:
+    app: role-service
+  ports: 
+  - protocol: TCP
+    port: 3000
+    targetPort: 3000
