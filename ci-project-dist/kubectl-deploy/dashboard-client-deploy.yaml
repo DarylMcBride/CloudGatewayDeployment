@@ -15,7 +15,7 @@ spec:
         app: dashboard-client
     spec:
       containers:
-      - name: dashoboard-client
+      - name: dashboard-client
         image: docker.io/darylmcbride/dashboard-client
         ports:
         - containerPort: 8080 
