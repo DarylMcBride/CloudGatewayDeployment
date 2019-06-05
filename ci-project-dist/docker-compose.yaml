@@ -1,27 +1,25 @@
-version: "3.7"
-services:
         mongo:
                 image: mongo:latest
                 container_name: mongo
         mongo-service:
                 build: ./mongo-service
-                image: darylmcbride/mongo-service
+                image: darylmcbride/mongo-service:v${BUILD_NUMBER}
                 container_name: mongo-service
                 depends_on: 
                 - mongo
         secret-service:
                 build: ./secret-service
-                image: darylmcbride/secret-service
+                image: darylmcbride/secret-service:v${BUILD_NUMBER}
                 container_name: secret-service
                 depends_on:
                 - mongo-service
         aes-encryption-service:
                 build: ./aes-encryption-service
-                image: darylmcbride/aes-encryption-service
+                image: darylmcbride/aes-encryption-service:v${BUILD_NUMBER}
                 container_name: aes-encryption-service
         email-service:
                 build: ./email-service/
-                image: darylmcbride/email-service
+                image: darylmcbride/email-service:v${BUILD_NUMBER}
                 container_name: email-service
                 environment:
                 - GMAIL_USER=${GMAIL_USER}
@@ -32,30 +30,30 @@ services:
                 - aes-encryption-service
         account-service:
                 build: ./account-service
-                image: darylmcbride/account-service
+                image: darylmcbride/account-service:v${BUILD_NUMBER}
                 container_name: account-service
                 depends_on:
                 - secret-service
                 - mongo-service
         session-token-service:
                 build: ./session-token-service
-                image: darylmcbride/session-token-service
+                image: darylmcbride/session-token-service:v${BUILD_NUMBER}
                 container_name: session-token-service
                 depends_on:
                 - aes-encryption-service
         dashboard-service:
                 build: ./dashboard-service
-                image: darylmcbride/dashboard-service
+                image: darylmcbride/dashboard-service:v${BUILD_NUMBER}
                 container_name: dashboard-service
                 depends_on:
                 - account-service
         dashboard-client:
                 build: ./dashboard-client
-                image: darylmcbride/dashboard-client
+                image: darylmcbride/dashboard-client:v${BUILD_NUMBER}
                 container_name: dashboard-client
         authentication-service:
                 build: ./authentication-service
-                image: darylmcbride/authentication-service
+                image: darylmcbride/authentication-service:v${BUILD_NUMBER}
                 container_name: authentication-service
                 environment:
                         ACTIVATION_LINK: ${ACTIVATION_LINK}
@@ -64,19 +62,19 @@ services:
                 - session-token-service
         authentication-client:
                 build: ./authentication-client
-                image: darylmcbride/authentication-client
+                image: darylmcbride/authentication-client:v${BUILD_NUMBER}
                 container_name: authentication-client
         role-service:
                 build: ./role-service
-                image: darylmcbride/role-service
+                image: darylmcbride/role-service:v${BUILD_NUMBER}
                 container_name: role-service
         group-service:
                 build: ./group-service
-                image: darylmcbride/group-service
+                image: darylmcbride/group-service:v${BUILD_NUMBER}
                 container_name: group-service
         gateway:
                 build: ./gateway
-                image: darylmcbride/gateway
+                image: darylmcbride/gateway:v${BUILD_NUMBER}
                 container_name: gateway
                 ports:
                 - target: 80
