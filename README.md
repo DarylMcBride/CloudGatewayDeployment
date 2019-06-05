@@ -65,6 +65,9 @@ services:
   
 ##### 3. Implementing Kubernetes
   
+  Each of the microservices require a deployment.yaml in order to create kubernetes deployments and services. Each of
+  the microservices are deployed as a microservice, with the gateway service deployed as a LoadBalancer in order to allow
+  the user to access a public domain.
   
 ```
  spec:
@@ -77,6 +80,7 @@ services:
                                                               Snippet example of account-service.yaml
 ```
 ##### 4. Create/Deploy Jenkins
+
 
 ```
           spec:
