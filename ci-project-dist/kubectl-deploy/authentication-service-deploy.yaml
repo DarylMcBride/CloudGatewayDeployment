@@ -19,6 +19,9 @@ spec:
         image: docker.io/darylmcbride/authentication-service
         ports:
         - containerPort: 3000
+        env:
+        - name: ACTIVATION_LINK      
+          value: http://35.246.7.186/authentication/api/activate 
 ---
 apiVersion: v1
 kind: Service
@@ -31,3 +34,4 @@ spec:
   - protocol: TCP
     port: 3000
     targetPort: 3000
+  type: ClusterIP

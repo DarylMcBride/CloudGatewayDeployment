@@ -19,6 +19,13 @@ spec:
         image: docker.io/darylmcbride/email-service
         ports:
         - containerPort: 3000
+        env:
+        - name: GMAIL_USER
+          value: ilovedocker123@gmail.com
+        - name: GMAIL_PASS
+          value: ilovedocker1!
+        - name: SERVICE_NAME
+          value: "login service thingy"
 ---
 apiVersion: v1
 kind: Service
@@ -31,3 +38,4 @@ spec:
   - protocol: TCP
     port: 3000
     targetPort: 3000
+  type: ClusterIP

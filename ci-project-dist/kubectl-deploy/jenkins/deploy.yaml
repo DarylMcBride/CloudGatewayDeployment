@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins
+  labels:
+          app: jenkins
+spec:
+        selector:
+                matchLabels:
+                        app: jenkins
+        template:
+                metadata:
+                        labels:
+                                app: jenkins
+        spec:
+                serviceAccountName: jenkins-service-account
+                securityContext:
+                        fsGroup: 1000
+                containers:
+                - name: jenkins
+                  securityContext:
+                          runAsUser: 1000
+                  image: docker.io/darylmcbride/jenkins

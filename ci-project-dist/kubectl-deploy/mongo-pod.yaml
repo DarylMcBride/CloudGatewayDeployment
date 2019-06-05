@@ -10,14 +10,6 @@ spec:
     image: docker.io/library/mongo
     ports:
     - containerPort: 27017
-    volumeMounts:
-    - name: database
-      mountPath: "/data/db/"
-      readOnly: false
-  volumes:
-  - name: database
-    persistentVolumeClaim:
-      claimName: database
 ---
 apiVersion: v1
 kind: Service
@@ -31,15 +23,4 @@ spec:
     port: 27017
     targetPort: 27017
   type: ClusterIP
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: database
-spec:
-  accessModes:
-  - ReadWriteOnce
-  resources:
-    requests:
-      storage: 30Gi
 
