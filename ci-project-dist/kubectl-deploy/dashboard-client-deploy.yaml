@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: dashboard-client
-        image: docker.io/darylmcbride/dashboard-client
+        image: docker.io/${DOCKER_LOGIN}/dashboard-client
         ports:
         - containerPort: 8080 
 ---
