@@ -5,7 +5,7 @@
 The project consists of several microservices, the overall objective of the project is to successfully build, deploy and  automate the project onto a cloud platform. 
 
 #### Schema of microservices and their dependencies
-![alt text](https://github.com/DarylMcBride/scripts/blob/master/ciprojectdiagr.png)
+![alt text](https://github.com/DarylMcBride/img/blob/master/ciprojectdiagr.png)
 
 The most significant challenge of this task will be ensuring image creation of each of the microservices adheres to the project schema.   
 
@@ -19,7 +19,7 @@ Required ports
 * Jenkins - 8080
                                                              
 #### Project Walkthrough
-![alt text](https://github.com/DarylMcBride/scripts/blob/master/project-steps2.png)
+![alt text](https://github.com/DarylMcBride/img/blob/master/project-steps2.png)
 
 
 Components
