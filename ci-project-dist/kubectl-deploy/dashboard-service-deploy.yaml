@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: dashboard-service
-        image: docker.io/darylmcbride/dashboard-service
+        image: docker.io/${DOCKER_LOGIN}/dashboard-service
         ports:
         - containerPort: 3000
 ---
