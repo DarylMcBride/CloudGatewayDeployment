@@ -12,6 +12,13 @@ The most significant challenge of this task will be ensuring image creation of e
 Prerequisites
 * clone in project -git clone https://github.com/DarylMcBride/CloudGatewayDeployment.git
 
+Creating Kubernetes Cluster
+
+```
+gcloud container clusters create [CLUSTER-NAME] --zone [COMPUTE-ZONE]
+gcloud container clusters get-credentials [CLUSTER-NAME] --zone [COMPUTE-ZONE]
+```
+
 Required ports
 * Clients - 8080
 * Services - 3000
@@ -44,7 +51,8 @@ ENTRYPOINT ["/usr/local/bin/npm", "run", "serve"]
 
 ##### 2. Uploading Docker images
 
-  In order to test that my deployment conformed to the schema I created an inital docker-compose.yaml file directed towards     the Dockerfiles I created in step one. 
+  In order to test that my deployment conformed to the schema I created an inital docker-compose.yaml file directed towards 
+  the Dockerfiles I created in step one. 
   
 ```
 version: '3.3'
@@ -71,7 +79,8 @@ services:
   docker-compose build -t ./
   docker-compose push
   ```
-  The above command will trigger a push of the images to the appropriate docker-hub account
+  The above command will trigger a push of the images to the appropriate docker-hub account, this command requires you to input your 
+  docker-hub account details in order to gain permission to push the images.
   
 ##### 3. Implementing Kubernetes
   
@@ -83,12 +92,38 @@ services:
  spec:
       containers:
       - name: account-service
-        image: docker.io/darylmcbride/account-service
+        image: docker.io/${DOCKER_LOGIN}/account-service
         ports:
         - containerPort: 3000    
         
                                                               Snippet example of account-service.yaml
 ```
+Once all environment variables have been checked to be correct simply navigate to the kubectl-deploy folder and apply the changes.
+
+```
+cd ~/CloudGatewayProject/ci-project-dist/kubectl-deploy/
+kubectl apply -f ./
+```
+
+The activation link environment variable must be changed to the ip address given to your gateway load balancer. This must be changed and reapplied within the authenctication-service-deploy.yaml. See below for the steps to achieve this.
+
+```
+ cd ~/CloudGatewayProject/ci-project-dist/kubectl-deploy/
+ vim authentication-service-deploy.yaml
+```
+
+```
+ env:
+        - name: ACTIVATION_LINK      
+          value: http://35.246.7.186/authentication/api/activate 
+```
+Once this step has been achieved simply reapply the changes.
+
+```
+kubectl apply -f ./authentication-service-deploy.yaml
+```
+The project has now been deployed successfully within a Kubernetes cluster.
+	
 ##### 4. Create/Deploy Jenkins
 
   Jenkins can be deployed on the kubernetes cluster to give it access to the project. The major difficulty in this task is 
@@ -117,8 +152,12 @@ services:
 Each of the microservices can then be individually built using the command below on jenkins.
 
 ```
+export DOCKER_LOGIN=[docker account]
+cd ci-project-dist
+docker-compose build
+docker-compose push
 kubectl --record deployment.apps/authentication-client set image deployment.v1.apps/
-authentication-client authentication-client=docker.io/darylmcbride/
+authentication-client authentication-client=docker.io/${DOCKER_LOGIN}/
 authentication-client:v${BUILD_NUMBER}
 
                                                               Building an image via jenkins
