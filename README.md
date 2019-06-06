@@ -118,5 +118,5 @@ authentication-client:v${BUILD_NUMBER}
 Implementing web hooks on jenkins allow the jenkins job to scan git hub for any updates which occur in the projects repository. If an update occurs jenkins will scan through each microservice and update the build appropriately.
 
 
-![alt text](https://github.com/DarylMcBride/scripts/blob/master/cidiagram.png)
+![alt text](https://github.com/DarylMcBride/img/blob/master/CI.png)
 
