@@ -51,7 +51,7 @@ version: '3.3'
 services:
         secret-service:
                 build: ./secret-service
-                image: darylmcbride/secret-service:v${BUILD_NUMBER}
+                image: ${DOCKER_LOGIN}/secret-service:v${BUILD_NUMBER}
                 container_name: secret-service
                 depends_on:
                 - mongo-service
@@ -61,6 +61,17 @@ services:
   After ensuring all of the micro-services were working as intended, I changed the image tag of each microservice to point
   towards its own dockerhub repo and then pushed the images. This allowed me to fully test that the applications worked
   correctly and allowed me to easily convert the deployment into Kubernetes clusters.
+  
+  the ${DOCKER_LOGIN} environment variable must be changed to your docker-hub account within a .env file in order to allow
+  you to login to your account.
+  
+  ```
+  cd CloudGatewayDeploy/ci-project-dist/
+  docker login
+  docker-compose build -t ./
+  docker-compose push
+  ```
+  The above command will trigger a push of the images to the appropriate docker-hub account
   
 ##### 3. Implementing Kubernetes
   
@@ -95,7 +106,7 @@ services:
                 - name: jenkins
                   securityContext:
                           runAsUser: 1000
-                  image: docker.io/darylmcbride/jenkins
+                  image: docker.io/${DOCKER_LOGIN}/jenkins
                   
                                                          Creating and deploying jenkins instance      
 ```
