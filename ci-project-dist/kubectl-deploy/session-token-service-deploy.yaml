@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: session-token-service
-        image: docker.io/darylmcbride/session-token-service
+        image: docker.io/${DOCKER_LOGIN}/session-token-service
         ports:
         - containerPort: 3000
 ---
