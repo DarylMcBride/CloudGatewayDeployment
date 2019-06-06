@@ -41,7 +41,6 @@ ENTRYPOINT ["/usr/local/bin/npm", "run", "serve"]
 
                                                                             Dockerfile for a service
 ```
-  
 
 ##### 2. Uploading Docker images
 
@@ -81,6 +80,11 @@ services:
 ```
 ##### 4. Create/Deploy Jenkins
 
+  Jenkins can be deployed on the kubernetes cluster to give it access to the project. The major difficulty in this task is 
+  giving jenkins the correct permissions to access and run the project.
+  This step requires you to find which vm instance jenkins is running on and ssh into it. It is neccessary to ensure that 
+  both docker and docker-compose are installed, you then have to log into docker-hub on the instance to allow jenkins 
+  permission to download the images.
 
 ```
           spec:
@@ -95,7 +99,11 @@ services:
                   
                                                          Creating and deploying jenkins instance      
 ```
+
+  
 ##### 5. Add each microservice into Jenkins
+
+Each of the microservices can then be individually built using the command below on jenkins.
 
 ```
 kubectl --record deployment.apps/authentication-client set image deployment.v1.apps/
@@ -107,4 +115,5 @@ authentication-client:v${BUILD_NUMBER}
 
 ##### 6. Create web-hooks for each microservice
 
+Implementing web hooks on jenkins allow the jenkins job to scan git hub for any updates which occur in the projects repository. If an update occurs jenkins will scan through each microservice and update the build appropriately.
 
