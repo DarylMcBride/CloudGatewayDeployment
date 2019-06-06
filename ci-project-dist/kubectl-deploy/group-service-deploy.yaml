@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: group-service
-        image: docker.io/darylmcbride/group-service
+        image: docker.io/${DOCKER_LOGIN}/group-service
         ports:
         - containerPort: 3000
 ---
