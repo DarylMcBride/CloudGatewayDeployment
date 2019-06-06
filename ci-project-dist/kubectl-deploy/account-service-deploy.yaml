@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: account-service
-        image: docker.io/darylmcbride/account-service
+        image: docker.io/${DOCKER_LOGIN}/account-service
         ports:
         - containerPort: 3000
 ---
