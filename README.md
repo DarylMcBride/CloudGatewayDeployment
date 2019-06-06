@@ -130,7 +130,7 @@ The project has now been deployed successfully within a Kubernetes cluster.
   giving jenkins the correct permissions to access and run the project.
   This step requires you to find which vm instance jenkins is running on and ssh into it. It is neccessary to ensure that 
   both docker and docker-compose are installed, you then have to log into docker-hub on the instance to allow jenkins 
-  permission to download the images.
+  permission to download the images and also create a new user group for jenkins.
 
 ```
           spec:
