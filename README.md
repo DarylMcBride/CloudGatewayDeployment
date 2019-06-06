@@ -79,8 +79,8 @@ services:
   docker-compose build -t ./
   docker-compose push
   ```
-  The above command will trigger a push of the images to the appropriate docker-hub account, this command requires you to input your 
-  docker-hub account details in order to gain permission to push the images.
+  The above command will trigger a push of the images to the appropriate docker-hub account, this command requires you to
+  input your docker-hub account details in order to gain permission to push the images.
   
 ##### 3. Implementing Kubernetes
   
